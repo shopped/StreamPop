@@ -4,7 +4,9 @@
 	"description": "Aggregate the three most popular chat messages on YouTube live in a banner",
 	"permissions": ["tabs", "activeTab", "storage", "declarativeContent"],
 	"background": {
-		"scripts": ["background.js"],
+		"scripts": [
+			"jquery.js",
+			"background.js"],
 		"persistent": false
 	},
 	"page_action": {
@@ -21,6 +23,14 @@
 		"32": "images/get_started32.png",
 		"48": "images/get_started48.png",
 		"128": "images/get_started128.png"
+	},
+	"commands": {
+		"_execute_page_action": {
+			"suggested_key": {
+				"default": "Ctrl+Shift+F",
+				"mac": "MacCtrl+Shift+F"
+			}
+		}
 	},
 	"manifest_version": 2
 }
