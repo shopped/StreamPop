@@ -2,15 +2,51 @@
 <html>
 	<head>
 		<style type="text/css">
-button {
-	height: 30px;
-	width: 30px;
-	outline: none;
+#button-container {
+	display:flex;
+	flex-direction: row;
 }
-		</style>
+#changeColor {
+	outline: none;
+	margin: 15px;
+	border-style:solid;
+	border-color:'black';
+	border-width:2px;
+	display: inline-block;
+	padding:0;
+		width:64px;
+			height:64px;
+}
+#reset {
+	outline: none;
+	margin:15px;
+	border-style:solid;
+	border-color:'black';
+	border-width:2px;
+	display: inline-block;
+	padding:0;
+		width:64px;
+			height:64px;
+}
+#donate {
+	outline: none;
+	margin:15px;
+	border-style:solid;
+	border-color:'black';
+	border-width:2px;
+	display: inline-block;
+	padding:0;
+		width:64px;
+			height:64px;
+}
+</style>
 	</head>
-	<body>
-		<button id="changeColor"></button>
+	<body >
+		<div id="button-container">
+			<button id="changeColor"><img src="./images/poweron.png"></button>
+			<button id="reset"><img src="./images/reset.png"/></button>
+			<button id="donate"><img src="./images/donate.png"/></button>
+		</div>
 		<script src="popup.js"></script>
 	</body>
 </html>
