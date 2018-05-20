@@ -1,32 +1,29 @@
-let changeColor = document.getElementById('changeColor');
-chrome.storage.sync.get('color', function(data) {
-	changeColor.style.backgroundColor = data.color;
-	changeColor.setAttribute('value', data.color);
-});
+let power = document.getElementById('button-container');
 
-changeColor.onclick = function(element) {
-	let color = element.target.value;
+power.onclick = function(element) {
 	chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
 		chrome.tabs.executeScript(
 			{code: `
-			var idHash = document.body.getElementsByTagName("yt-live-chat-text-message-renderer");
-			console.log(idHash.length);
-			for (var i=0; i< idHash.length; i++ ) {
-				console.log(idHash[i].children[1].children[0].innerHTML);	
-				console.log(idHash[i].children[1].children[2].innerHTML);	
-				console.log(idHash[i].children[1].children[3].innerHTML);	
+			console.log(streamPopDictionary === undefined);
+			if (streamPopDictionary === undefined) {
+				console.log("Undefined streamPopDictionary. Creating new variables");
+				var streamPopDictionary = {totalIterations: 0, wordCount: {}};
+				var idHash = null;
 			}
-			// (node => {
-			// 	console.log(node.namedItem("content").namedItem("message"));
-			// 	console.log(node.namedItem("content").namedItem("author-name"));
-			// }
-			// );
+			idHash = document.body.getElementsByTagName("yt-live-chat-text-message-renderer");
+			streamPopDictionary.totalIterations = streamPopDictionary.totalIterations + 1;
+			console.log(streamPopDictionary);
+			for (var i=0; i< idHash.length; i++ ) {
+				//console.log(idHash[i].children[1].children[0].innerHTML);	
+				//console.log(idHash[i].children[1].children[2].innerHTML);	
+				//console.log(idHash[i].children[1].children[3].innerHTML);	
+			}
 			`});
 	});
 };
 
 var counter = 0;
-console.log(message_parent);
+//console.log(message_parent);
 
 // When a new chat is added
 // Console.log that new chat
