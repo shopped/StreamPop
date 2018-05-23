@@ -1,4 +1,6 @@
-let power = document.getElementById('button-container');
+let power = document.getElementById('power');
+let reset = document.getElementById('reset');
+let donate = document.getElementById('donate');
 
 power.onclick = function(element) {
 	chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
@@ -8,18 +10,34 @@ power.onclick = function(element) {
 			if (streamPopDictionary === undefined) {
 				console.log("Undefined streamPopDictionary. Creating new variables");
 				var streamPopDictionary = {totalIterations: 0, wordCount: {}};
+				var lastTime;
 				var idHash = null;
 			}
 			idHash = document.body.getElementsByTagName("yt-live-chat-text-message-renderer");
-			streamPopDictionary.totalIterations = streamPopDictionary.totalIterations + 1;
-			console.log(streamPopDictionary);
-			for (var i=0; i< idHash.length; i++ ) {
-				//console.log(idHash[i].children[1].children[0].innerHTML);	
-				//console.log(idHash[i].children[1].children[2].innerHTML);	
-				//console.log(idHash[i].children[1].children[3].innerHTML);	
+			// This function will execute every second
+			updatePopDictionary = function() {
+				//console.log((new Date()).toTimeString());
+				console.log(streamPopDictionary.totalIterations, idHash.length);				
+				//for (var i=0; i< idHash.length; i++ ) {
+					//streamPopDictionary.totalIterations = streamPopDictionary.totalIterations + 1;
+					//console.log(streamPopDictionary.totalIterations, idHash.length);
+					//console.log("0:", idHash[i].children[1].children[0].innerHTML); //Time	
+					//console.log("2:", idHash[i].children[1].children[2].innerHTML); //User
+					//console.log("3:", idHash[i].children[1].children[3].innerHTML); //Text
+				//}
 			}
+			setInterval(() => updatePopDictionary(), 1000);
 			`});
 	});
+};
+
+reset.onclick = function(element) {
+	chrome.tabs.executeScript(
+		{code: `console.log("RESET")`}
+	);
+};
+donate.onclick = function(element) {
+	window.open('https://paypal.me/patrickgesarcarroll/4.20', '_blank');
 };
 
 var counter = 0;
