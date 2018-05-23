@@ -55,6 +55,9 @@ donate.onclick = function(element) {
 };
 
 var counter = 0;
+document.getElementById("poweron").className = (sessionStorage.getItem("POWER") === "true" ? "on" : "off");
+document.getElementById("poweroff").className = (sessionStorage.getItem("POWER") === "true" ? "off" : "on");
+alert(sessionStorage.getItem("POWER"));
 //console.log(message_parent);
 
 // When a new chat is added
