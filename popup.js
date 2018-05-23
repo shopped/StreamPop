@@ -23,6 +23,22 @@ power.onclick = function(element) {
 				var poweroff = false;
 			}
 			idHash = document.body.getElementsByTagName("yt-live-chat-text-message-renderer");
+			// OBSOLETE I'M GOING TO KEEP THIS IN THE POPUP
+			// PopContainer = document.createElement("span");
+			// $(PopContainer).addClass("streampop-class");
+			// $(document.body).append(PopContainer);
+			// $(PopContainer).css("position", "absolute");
+			// $(PopContainer).css("top", "0px");
+			// $(PopContainer).css("left", "0px");
+			// streamPopFirst = document.createElement("H1");
+			// streamPopFirst.innerHTML = "First";
+			// PopContainer.append(streamPopFirst);
+			// streamPopSecond = document.createElement("H1");
+			// streamPopSecond.innerHTML = "Second";
+			// PopContainer.append(streamPopSecond);
+			// streamPopThird = document.createElement("H1");
+			// streamPopThird.innerHTML = "Third";
+			// PopContainer.append(streamPopThird);
 			// This function will execute every second
 			updatePopDictionary = function() {
 				//console.log((new Date()).toTimeString());
@@ -57,7 +73,7 @@ donate.onclick = function(element) {
 var counter = 0;
 document.getElementById("poweron").className = (sessionStorage.getItem("POWER") === "true" ? "on" : "off");
 document.getElementById("poweroff").className = (sessionStorage.getItem("POWER") === "true" ? "off" : "on");
-alert(sessionStorage.getItem("POWER"));
+// alert(sessionStorage.getItem("POWER"));
 //console.log(message_parent);
 
 // When a new chat is added
