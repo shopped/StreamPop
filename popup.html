@@ -39,11 +39,17 @@
 	width:64px;
 	height:64px;
 }
+.on {
+	display: block;
+}
+.off {
+	display: none;
+}
 </style>
 	</head>
 	<body >
 		<div id="button-container">
-			<button id="power"><img src="./images/poweron.png"></button>
+			<button id="power"><img id="poweron" class="off" src="./images/poweron.png"><img id="poweroff" class="on" src="./images/poweroff.png"></button>
 			<button id="reset"><img src="./images/reset.png"/></button>
 			<button id="donate"><img src="./images/donate.png"/></button>
 		</div>

@@ -3,15 +3,24 @@ let reset = document.getElementById('reset');
 let donate = document.getElementById('donate');
 
 power.onclick = function(element) {
+	if (sessionStorage.getItem("POWER") === null || sessionStorage.getItem("POWER") === "false") {
+		console.log("null, setting to true");
+		sessionStorage.setItem("POWER", "true");
+	}
+	else {
+		sessionStorage.setItem("POWER", "false");
+	}
+	document.getElementById("poweron").className = (sessionStorage.getItem("POWER") === "true" ? "on" : "off");
+	document.getElementById("poweroff").className = (sessionStorage.getItem("POWER") === "true" ? "off" : "on");
 	chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
 		chrome.tabs.executeScript(
 			{code: `
-			console.log(streamPopDictionary === undefined);
 			if (streamPopDictionary === undefined) {
 				console.log("Undefined streamPopDictionary. Creating new variables");
 				var streamPopDictionary = {totalIterations: 0, wordCount: {}};
 				var lastTime;
 				var idHash = null;
+				var poweroff = false;
 			}
 			idHash = document.body.getElementsByTagName("yt-live-chat-text-message-renderer");
 			// This function will execute every second
@@ -26,7 +35,12 @@ power.onclick = function(element) {
 					//console.log("3:", idHash[i].children[1].children[3].innerHTML); //Text
 				//}
 			}
-			setInterval(() => updatePopDictionary(), 1000);
+			if (poweroff === false) {
+				poweroff = setInterval(() => updatePopDictionary(), 1000);
+			} else {
+				clearInterval(poweroff);
+				poweroff = false;
+			}
 			`});
 	});
 };
