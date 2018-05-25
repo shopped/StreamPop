@@ -17,39 +17,70 @@ power.onclick = function(element) {
 			{code: `
 			if (streamPopDictionary === undefined) {
 				console.log("Undefined streamPopDictionary. Creating new variables");
-				var streamPopDictionary = {totalIterations: 0, wordCount: {}};
+				var streamPopDictionary = {};
 				var lastTime;
 				var idHash = null;
 				var poweroff = false;
 			}
 			idHash = document.body.getElementsByTagName("yt-live-chat-text-message-renderer");
-			// OBSOLETE I'M GOING TO KEEP THIS IN THE POPUP
-			// PopContainer = document.createElement("span");
-			// $(PopContainer).addClass("streampop-class");
-			// $(document.body).append(PopContainer);
-			// $(PopContainer).css("position", "absolute");
-			// $(PopContainer).css("top", "0px");
-			// $(PopContainer).css("left", "0px");
-			// streamPopFirst = document.createElement("H1");
-			// streamPopFirst.innerHTML = "First";
-			// PopContainer.append(streamPopFirst);
-			// streamPopSecond = document.createElement("H1");
-			// streamPopSecond.innerHTML = "Second";
-			// PopContainer.append(streamPopSecond);
-			// streamPopThird = document.createElement("H1");
-			// streamPopThird.innerHTML = "Third";
-			// PopContainer.append(streamPopThird);
+			// EVENTUALLY I WANT to MOVE THIS INTO POP
+			PopContainer = document.createElement("span");
+			$(PopContainer).addClass("streampop-class");
+			$(document.body).append(PopContainer);
+			$(PopContainer).css("position", "absolute");
+			$(PopContainer).css("top", "100px");
+			$(PopContainer).css("left", "100px");
+			streamPopFirst = document.createElement("H1");
+			streamPopSecond = document.createElement("H1");
+			streamPopThird = document.createElement("H1");
+			[streamPopFirst, streamPopSecond, streamPopThird].forEach(item => {
+				$(item).css("color", "white");
+				$(item).css("text-shadow", "2px 2px 4px #000000");
+				PopContainer.append(item);
+			})
 			// This function will execute every second
 			updatePopDictionary = function() {
 				//console.log((new Date()).toTimeString());
-				console.log(streamPopDictionary.totalIterations, idHash.length);				
-				//for (var i=0; i< idHash.length; i++ ) {
-					//streamPopDictionary.totalIterations = streamPopDictionary.totalIterations + 1;
+				// streamPopDictionary.totalIterations = streamPopDictionary.totalIterations + 1;
+				//console.log(streamPopDictionary.totalIterations, idHash.length);
+				var cleanEmojis = (words) => {
+					if (words.indexOf("<img class") === -1)
+						return words; 
+					let start = words.indexOf("<img class");
+					let newwords = words.substring(start, words.substring(start, words.length).indexOf(">"));
+					return cleanEmojis(newwords);
+				}				
+				/// BUILDING THE DICTIONARY
+				for (var i=0; i< idHash.length; i++ ) {
 					//console.log(streamPopDictionary.totalIterations, idHash.length);
 					//console.log("0:", idHash[i].children[1].children[0].innerHTML); //Time	
-					//console.log("2:", idHash[i].children[1].children[2].innerHTML); //User
+					let user = idHash[i].children[1].children[2].innerHTML; //User
 					//console.log("3:", idHash[i].children[1].children[3].innerHTML); //Text
-				//}
+					// GOING TO CLEAR THE EMOJIS FROM THE TEXT
+					let words = idHash[i].children[1].children[3].innerHTML;
+					cleanedWords = cleanEmojis(words);
+					// I CAN HAVE A HASH OF SOME UNIQUE ID USED SO I DONT DOUBLE CHECK
+					(cleanedWords.split(" ")).forEach(word => {
+						if (word === "" || word === "you" || word === "the" || word === "a" || word === "to" || word === "I" || word === "and" || word === "are" || word === "is") {
+							return;
+						}
+						if ((word in streamPopDictionary) == false) {
+							streamPopDictionary[word] = [user];
+						}
+						else if (streamPopDictionary[word].indexOf(user) === -1) {
+							streamPopDictionary[word].push(user);
+						}
+					});
+				}
+				var sortedItems = Object.keys(streamPopDictionary).map(key => [key, streamPopDictionary[key].length]);
+				sortedItems.sort(function(first, second) {
+					return second[1] - first[1];
+				})
+				var topThree = sortedItems.slice(0, 3);
+				console.log(topThree);
+				streamPopFirst.innerHTML = topThree[0][0] + " : " + topThree[0][1] ;
+				streamPopSecond.innerHTML = topThree[1][0] + " : " + topThree[1][1] ;
+				streamPopThird.innerHTML = topThree[2][0] + " : " + topThree[2][1] ;
 			}
 			if (poweroff === false) {
 				poweroff = setInterval(() => updatePopDictionary(), 1000);
