@@ -6,6 +6,12 @@
 	display:flex;
 	flex-direction: row;
 }
+#button-container-center {
+	display:flex;
+	flex-direction:row;
+	align-self:'stretch';
+	justify-content:center;
+}
 #power, #reset, #donate, #filter {
 	outline: none;
 	margin: 15px;
@@ -37,6 +43,18 @@
 			<button id="filter"><img id="filteron" src="./images/filter.png"/></button>
 			<button id="reset"><img src="./images/reset.png"/></button>
 			<button id="donate"><img src="./images/donate.png"/></button>
+		</div>
+		<div id="select-number-container">
+			<form action="" id="button-container-center">
+				<input type="radio" name="num" value="2">2&nbsp;
+				<input type="radio" name="num" value="3" checked>3&nbsp;
+				<input type="radio" name="num" value="4">4&nbsp;
+				<input type="radio" name="num" value="5">5&nbsp;
+				<input type="radio" name="num" value="6">6&nbsp;
+				<input type="radio" name="num" value="7">7&nbsp;
+				<input type="radio" name="num" value="8">8&nbsp;
+				<input type="radio" name="num" value="9">9&nbsp;
+			</form>
 		</div>
 		<script src="popup.js"></script>
 	</body>
