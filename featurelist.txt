@@ -1,0 +1,10 @@
+On the TODO list
+Actually publish this now
+
+Unfiltered
+Refactor common words into an array that gets filtered out
+Fix the reset button so it actually works
+Ignore case when agregating words
+Make emojis show up in the streampop dictionary
+Choose the most popular range from 2-10 instead of keeping it at 3
+Make donate reroute to a page of suggested features list(this list) and a donate button saying please suggest what you want, instead of just a direct link to paypal
