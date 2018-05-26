@@ -4,6 +4,7 @@ let donate = document.getElementById('donate');
 
 
 power.onclick = function(element) {
+		chrome.storage.local.set({"FILTER": "ON"});
 	if (sessionStorage.getItem("POWER") === null || sessionStorage.getItem("POWER") === "false") {
 		console.log("null, setting to true");
 		sessionStorage.setItem("POWER", "true");
@@ -16,7 +17,7 @@ power.onclick = function(element) {
 	chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
 		chrome.tabs.executeScript(
 			{code: `
-const COMMONWORDS = ["BE","HAVE","DO","TO","OF","AT","BY","THE","AND","A","I","IT","HE","SHE","BUT","OR","AN","ARE","IS","AM",""];
+					var COMMONWORDS = ["BE","HAVE","DO","TO","OF","AT","BY","THE","AND","A","I","IT","HE","SHE","BUT","OR","AN","ARE","IS","AM",""];
 			var subdomain = window.location.host.split('.')[0];
 			var gaming = subdomain === "gaming";
 			if (streamPopDictionary === undefined) {
@@ -33,7 +34,7 @@ const COMMONWORDS = ["BE","HAVE","DO","TO","OF","AT","BY","THE","AND","A","I","I
 				idHash = idHash.contentWindow.document.body;
 				idHash = idHash.getElementsByTagName("yt-live-chat-text-message-renderer");
 			}
-			console.log(idHash);
+			// console.log(idHash);
 			// EVENTUALLY I WANT to MOVE THIS INTO POP
 			PopContainer = document.createElement("span");
 			$(PopContainer).addClass("streampop-class");
@@ -51,6 +52,7 @@ const COMMONWORDS = ["BE","HAVE","DO","TO","OF","AT","BY","THE","AND","A","I","I
 				PopContainer.append(item);
 			})
 			updatePopDictionary = function() {
+			chrome.storage.local.get(["FILTER"], result => console.log(result));
 				var cleanEmojis = (words) => {
 					if (words.indexOf("<img class") === -1)
 						return words; 
