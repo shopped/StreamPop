@@ -15,6 +15,9 @@ power.onclick = function(element) {
 	chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
 		chrome.tabs.executeScript(
 			{code: `
+			var subdomain = window.location.host.split('.')[0];
+			var gaming = subdomain === "gaming";
+			alert(gaming + " " + subdomain);
 			if (streamPopDictionary === undefined) {
 				console.log("Undefined streamPopDictionary. Creating new variables");
 				var streamPopDictionary = {};
