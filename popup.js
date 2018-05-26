@@ -2,6 +2,7 @@ let power = document.getElementById('power');
 let reset = document.getElementById('reset');
 let donate = document.getElementById('donate');
 
+
 power.onclick = function(element) {
 	if (sessionStorage.getItem("POWER") === null || sessionStorage.getItem("POWER") === "false") {
 		console.log("null, setting to true");
@@ -15,6 +16,7 @@ power.onclick = function(element) {
 	chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
 		chrome.tabs.executeScript(
 			{code: `
+const COMMONWORDS = ["BE","HAVE","DO","TO","OF","AT","BY","THE","AND","A","I","IT","HE","SHE","BUT","OR","AN","ARE","IS","AM",""];
 			var subdomain = window.location.host.split('.')[0];
 			var gaming = subdomain === "gaming";
 			if (streamPopDictionary === undefined) {
@@ -66,7 +68,7 @@ power.onclick = function(element) {
 					cleanedWords = cleanEmojis(words);
 					// I CAN HAVE A HASH OF SOME UNIQUE ID USED SO I DONT DOUBLE CHECK
 					(cleanedWords.split(" ")).map(word => word.toUpperCase()).forEach(word => {
-						if (word === "" || word === "you" || word === "the" || word === "a" || word === "to" || word === "I" || word === "and" || word === "are" || word === "is") {
+						if (COMMONWORDS.indexOf(word) !== -1) {
 							return;
 						}
 						if ((word in streamPopDictionary) == false) {
