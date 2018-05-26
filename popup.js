@@ -48,11 +48,7 @@ power.onclick = function(element) {
 				$(item).css("text-shadow", "2px 2px 4px #000000");
 				PopContainer.append(item);
 			})
-			// This function will execute every second
 			updatePopDictionary = function() {
-				//console.log((new Date()).toTimeString());
-				// streamPopDictionary.totalIterations = streamPopDictionary.totalIterations + 1;
-				//console.log(streamPopDictionary.totalIterations, idHash.length);
 				var cleanEmojis = (words) => {
 					if (words.indexOf("<img class") === -1)
 						return words; 
@@ -62,7 +58,6 @@ power.onclick = function(element) {
 				}				
 				/// BUILDING THE DICTIONARY
 				for (var i=0; i< idHash.length; i++ ) {
-					//console.log(streamPopDictionary.totalIterations, idHash.length);
 					//console.log("0:", idHash[i].children[1].children[0].innerHTML); //Time	
 					let user = idHash[i].children[1].children[2].innerHTML; //User
 					//console.log("3:", idHash[i].children[1].children[3].innerHTML); //Text
@@ -70,7 +65,7 @@ power.onclick = function(element) {
 					let words = idHash[i].children[1].children[3].innerHTML;
 					cleanedWords = cleanEmojis(words);
 					// I CAN HAVE A HASH OF SOME UNIQUE ID USED SO I DONT DOUBLE CHECK
-					(cleanedWords.split(" ")).forEach(word => {
+					(cleanedWords.split(" ")).map(word => word.toUpperCase()).forEach(word => {
 						if (word === "" || word === "you" || word === "the" || word === "a" || word === "to" || word === "I" || word === "and" || word === "are" || word === "is") {
 							return;
 						}
@@ -87,7 +82,6 @@ power.onclick = function(element) {
 					return second[1] - first[1];
 				})
 				var topThree = sortedItems.slice(0, 3);
-				console.log(topThree);
 				streamPopFirst.innerHTML = topThree[0][0] + " : " + topThree[0][1] ;
 				streamPopSecond.innerHTML = topThree[1][0] + " : " + topThree[1][1] ;
 				streamPopThird.innerHTML = topThree[2][0] + " : " + topThree[2][1] ;
