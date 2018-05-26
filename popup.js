@@ -17,7 +17,6 @@ power.onclick = function(element) {
 			{code: `
 			var subdomain = window.location.host.split('.')[0];
 			var gaming = subdomain === "gaming";
-			alert(gaming + " " + subdomain);
 			if (streamPopDictionary === undefined) {
 				console.log("Undefined streamPopDictionary. Creating new variables");
 				var streamPopDictionary = {};
@@ -25,7 +24,14 @@ power.onclick = function(element) {
 				var idHash = null;
 				var poweroff = false;
 			}
-			idHash = document.body.getElementsByTagName("yt-live-chat-text-message-renderer");
+			if (gaming) {
+				idHash = document.body.getElementsByTagName("yt-live-chat-text-message-renderer");
+			} else {
+				idHash = document.getElementById("chatframe");
+				idHash = idHash.contentWindow.document.body;
+				idHash = idHash.getElementsByTagName("yt-live-chat-text-message-renderer");
+			}
+			console.log(idHash);
 			// EVENTUALLY I WANT to MOVE THIS INTO POP
 			PopContainer = document.createElement("span");
 			$(PopContainer).addClass("streampop-class");
@@ -33,6 +39,7 @@ power.onclick = function(element) {
 			$(PopContainer).css("position", "absolute");
 			$(PopContainer).css("top", "100px");
 			$(PopContainer).css("left", "100px");
+			$(PopContainer).css("z-index", "9000");
 			streamPopFirst = document.createElement("H1");
 			streamPopSecond = document.createElement("H1");
 			streamPopThird = document.createElement("H1");
