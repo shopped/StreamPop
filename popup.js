@@ -1,10 +1,27 @@
 let power = document.getElementById('power');
 let reset = document.getElementById('reset');
 let donate = document.getElementById('donate');
+let filter = document.getElementById('filter');
 
+filter.onclick = function(element) {
+	chrome.storage.local.get(["FILTER"], (response) => {
+		console.log(response);
+		console.log(response === {});
+		document.getElementById("filteron").className = "halfOpacity";
+		if (response === {}) {
+			chrome.storage.localset({"FILTER":"OFF"});
+		} else {
+			if (response["FILTER"] === "ON") {
+				chrome.storage.local.set({"FILTER":"OFF"});
+			} else {
+				chrome.storage.local.set({"FILTER":"ON"});
+				document.getElementById("filteron").className = "fullOpacity";
+			}
+		}
+	});
+}
 
-power.onclick = function(element) {
-		chrome.storage.local.set({"FILTER": "ON"});
+power.onclick = function(element) {	
 	if (sessionStorage.getItem("POWER") === null || sessionStorage.getItem("POWER") === "false") {
 		console.log("null, setting to true");
 		sessionStorage.setItem("POWER", "true");
@@ -17,7 +34,15 @@ power.onclick = function(element) {
 	chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
 		chrome.tabs.executeScript(
 			{code: `
-					var COMMONWORDS = ["BE","HAVE","DO","TO","OF","AT","BY","THE","AND","A","I","IT","HE","SHE","BUT","OR","AN","ARE","IS","AM",""];
+				var FILTER = "ON";
+				chrome.storage.local.get(["FILTER"], (response) => {
+					if (response === {} || response["FILTER"] === "ON") {
+						FILTER = "ON";
+					} else {
+						FILTER = "OFF";
+					}
+				});
+				var COMMONWORDS = ["BE","HAVE","DO","TO","OF","AT","BY","THE","AND","A","I","IT","HE","SHE","BUT","OR","AN","ARE","IS","AM",""];
 			var subdomain = window.location.host.split('.')[0];
 			var gaming = subdomain === "gaming";
 			if (streamPopDictionary === undefined) {
@@ -52,7 +77,7 @@ power.onclick = function(element) {
 				PopContainer.append(item);
 			})
 			updatePopDictionary = function() {
-			chrome.storage.local.get(["FILTER"], result => console.log(result));
+				streamPopDictionary = {};
 				var cleanEmojis = (words) => {
 					if (words.indexOf("<img class") === -1)
 						return words; 
@@ -70,7 +95,9 @@ power.onclick = function(element) {
 					cleanedWords = cleanEmojis(words);
 					// I CAN HAVE A HASH OF SOME UNIQUE ID USED SO I DONT DOUBLE CHECK
 					(cleanedWords.split(" ")).map(word => word.toUpperCase()).forEach(word => {
-						if (COMMONWORDS.indexOf(word) !== -1) {
+						if (word === "")
+							return;
+						if ((FILTER === "ON") && (COMMONWORDS.indexOf(word) !== -1)) {
 							return;
 						}
 						if ((word in streamPopDictionary) == false) {
@@ -110,6 +137,12 @@ donate.onclick = function(element) {
 };
 
 var counter = 0;
+chrome.storage.local.get(["FILTER"], (response) => {
+	console.log(response);
+	console.log("FILTER" in response);
+	if (("FILTER" in response) && (response.FILTER === "OFF"))
+		document.getElementById("filteron").className = "halfOpacity";
+});
 document.getElementById("poweron").className = (sessionStorage.getItem("POWER") === "true" ? "on" : "off");
 document.getElementById("poweroff").className = (sessionStorage.getItem("POWER") === "true" ? "off" : "on");
 // alert(sessionStorage.getItem("POWER"));
