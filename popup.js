@@ -11,9 +11,7 @@ $(document).ready(function() {
 
 filter.onclick = function(element) {
 	chrome.storage.local.get(["FILTER"], (response) => {
-		console.log(response);
-		console.log(response === {});
-		document.getElementById("filteron").className = "halfOpacity";
+		document.getElementById("filteron").className = "fullOpacity";
 		if (response === {}) {
 			chrome.storage.localset({"FILTER":"OFF"});
 		} else {
@@ -21,7 +19,7 @@ filter.onclick = function(element) {
 				chrome.storage.local.set({"FILTER":"OFF"});
 			} else {
 				chrome.storage.local.set({"FILTER":"ON"});
-				document.getElementById("filteron").className = "fullOpacity";
+				document.getElementById("filteron").className = "halfOpacity";
 			}
 		}
 	});
@@ -152,38 +150,11 @@ var counter = 0;
 chrome.storage.local.get(["FILTER"], (response) => {
 	console.log(response);
 	console.log("FILTER" in response);
+	console.log(response.FILTER === "OFF");
 	if (("FILTER" in response) && (response.FILTER === "OFF"))
+		document.getElementById("filteron").className = "fullOpacity";
+	else
 		document.getElementById("filteron").className = "halfOpacity";
 });
 document.getElementById("poweron").className = (sessionStorage.getItem("POWER") === "true" ? "on" : "off");
 document.getElementById("poweroff").className = (sessionStorage.getItem("POWER") === "true" ? "off" : "on");
-// alert(sessionStorage.getItem("POWER"));
-//console.log(message_parent);
-
-// When a new chat is added
-// Console.log that new chat
-// Put that new chat into a dictionary of user { time: message }
-// Compile a real time dictionary of word: frequency
-// Another dictionary of word: frequency per user
-// Display that in the popup
-// Only display last 30 seconds
-//
-// DOM Tree
-// id = "author-name" Brayden Walton
-// id = "message" Text
-// Parent id="content"
-// yt-live-chat-text-message-renderer id = "SOMEHASH"
-// div id="items"
-// div id="item-offset"
-// div id="item-scroller"
-// div id="contents"
-// yt-live-chat-item-list-renderer
-// div id="item-list
-// div id="chat"
-// div id="contents"
-// div id="chat-messages"
-// iron-pages id="content-pages"
-// yt-live-chat-renderer
-// ytg-compact-watch-page
-// ytg-page-manager
-// div id="content-layer"
