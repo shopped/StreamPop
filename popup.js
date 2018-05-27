@@ -4,8 +4,22 @@ let donate = document.getElementById('donate');
 let filter = document.getElementById('filter');
 
 $(document).ready(function() {
-	$('input[name=num]').click(function() {
-		chrome.storage.local.set({"POP":$('input[name=num]').val()});
+	$('input[name=num]').click(function(v) {
+		chrome.storage.local.set({"POP":v.target.value});
+		chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
+			chrome.tabs.executeScript(
+				{code: `
+					if (streamPopArray) {
+						for (let i=0; i < 9; i++) {
+							if (i < ${v.target.value})
+								$(streamPopArray[i]).css("opacity", 1);
+							else
+								$(streamPopArray[i]).css("opacity", 0)
+						}
+					}
+				`}
+			)
+		});
 	})
 })
 
