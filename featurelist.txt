@@ -1,7 +1,4 @@
 On the TODO list
-Ignore case when agregating words
-Refactors common words into an array that gets filtered out
-Make the common word filtering a checkbox
 Choose the most popular range from 2-10 instead of keeping it at 3
 Fix the power button so it actually works
 Fix the reset button so it actually works
@@ -12,3 +9,8 @@ Unfiltered
 Make emojis show up in the streampop dictionary
 
 started at 3:07 on Saturday
+DONE
+
+Ignore case when agregating words
+Refactors common words into an array that gets filtered out
+Make the common word filtering a checkbox

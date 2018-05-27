@@ -3,6 +3,12 @@ let reset = document.getElementById('reset');
 let donate = document.getElementById('donate');
 let filter = document.getElementById('filter');
 
+$(document).ready(function() {
+	$('input[name=num]').click(function() {
+		chrome.storage.local.set({"POP":$('input[name=num]').val()});
+	})
+})
+
 filter.onclick = function(element) {
 	chrome.storage.local.get(["FILTER"], (response) => {
 		console.log(response);
@@ -34,15 +40,7 @@ power.onclick = function(element) {
 	chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
 		chrome.tabs.executeScript(
 			{code: `
-				var FILTER = "ON";
-				chrome.storage.local.get(["FILTER"], (response) => {
-					if (response === {} || response["FILTER"] === "ON") {
-						FILTER = "ON";
-					} else {
-						FILTER = "OFF";
-					}
-				});
-				var COMMONWORDS = ["BE","HAVE","DO","TO","OF","AT","BY","THE","AND","A","I","IT","HE","SHE","BUT","OR","AN","ARE","IS","AM",""];
+			var COMMONWORDS = ["BE","THIS","HAVE","DO","TO","OF","AT","BY","THE","AND","A","I","IT","HE","SHE","BUT","OR","AN","ARE","IS","AM",""];
 			var subdomain = window.location.host.split('.')[0];
 			var gaming = subdomain === "gaming";
 			if (streamPopDictionary === undefined) {
@@ -68,16 +66,23 @@ power.onclick = function(element) {
 			$(PopContainer).css("top", "100px");
 			$(PopContainer).css("left", "100px");
 			$(PopContainer).css("z-index", "9000");
-			streamPopFirst = document.createElement("H1");
-			streamPopSecond = document.createElement("H1");
-			streamPopThird = document.createElement("H1");
-			[streamPopFirst, streamPopSecond, streamPopThird].forEach(item => {
+			var streamPopFirst = document.createElement("H1"), streamPopSecond = document.createElement("H1"), streamPopThird = document.createElement("H1"), streamPopFourth = document.createElement("H1"), streamPopFifth = document.createElement("H1"), streamPopSixth = document.createElement("H1"), streamPopSeventh = document.createElement("H1"), streamPopEighth = document.createElement("H1"), streamPopNinth = document.createElement("H1");
+			var streamPopArray = [streamPopFirst, streamPopSecond, streamPopThird, streamPopFourth, streamPopFifth, streamPopSixth, streamPopSeventh, streamPopEighth, streamPopNinth];
+			streamPopArray.forEach(item => {
 				$(item).css("color", "white");
 				$(item).css("text-shadow", "2px 2px 4px #000000");
 				PopContainer.append(item);
 			})
+			var FILTER = "ON";
 			updatePopDictionary = function() {
 				streamPopDictionary = {};
+				chrome.storage.local.get(["FILTER"], (response) => {
+					if (response === {} || response["FILTER"] === "OFF") {
+						FILTER = "ON";
+					} else {
+						FILTER = "OFF";
+					}
+				});
 				var cleanEmojis = (words) => {
 					if (words.indexOf("<img class") === -1)
 						return words; 
@@ -109,13 +114,20 @@ power.onclick = function(element) {
 					});
 				}
 				var sortedItems = Object.keys(streamPopDictionary).map(key => [key, streamPopDictionary[key].length]);
+				console.log(FILTER);
 				sortedItems.sort(function(first, second) {
 					return second[1] - first[1];
 				})
-				var topThree = sortedItems.slice(0, 3);
-				streamPopFirst.innerHTML = topThree[0][0] + " : " + topThree[0][1] ;
-				streamPopSecond.innerHTML = topThree[1][0] + " : " + topThree[1][1] ;
-				streamPopThird.innerHTML = topThree[2][0] + " : " + topThree[2][1] ;
+				var topNine = sortedItems.slice(0, 9);
+				streamPopFirst.innerHTML = topNine[0][0] + " : " + topNine[0][1] ;
+				streamPopSecond.innerHTML = topNine[1][0] + " : " + topNine[1][1] ;
+				streamPopThird.innerHTML = topNine[2][0] + " : " + topNine[2][1] ;
+				streamPopFourth.innerHTML = topNine[3][0] + " : " + topNine[3][1] ;
+				streamPopFifth.innerHTML = topNine[4][0] + " : " + topNine[4][1] ;
+				streamPopSixth.innerHTML = topNine[5][0] + " : " + topNine[5][1] ;
+				streamPopSeventh.innerHTML = topNine[6][0] + " : " + topNine[6][1] ;
+				streamPopEighth.innerHTML = topNine[7][0] + " : " + topNine[7][1] ;
+				streamPopNinth.innerHTML = topNine[8][0] + " : " + topNine[8][1] ;
 			}
 			if (poweroff === false) {
 				poweroff = setInterval(() => updatePopDictionary(), 1000);
