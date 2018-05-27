@@ -151,11 +151,13 @@ power.onclick = function(element) {
 	});
 };
 
-reset.onclick = function(element) {
-	chrome.tabs.executeScript(
-		{code: `console.log("RESET")`}
-	);
-};
+// Going to Take this out until later
+// reset.onclick = function(element) {
+// 	chrome.tabs.executeScript(
+// 		{code: `console.log("RESET")`}
+// 	);
+// };
+
 donate.onclick = function(element) {
 	window.open('https://paypal.me/patrickgesarcarroll/4.20', '_blank');
 };
