@@ -1,4 +1,4 @@
-# streampop
+# Stream Pop
 Chrome Extension to aggregate YouTube Live Chat
 
 See the most popular words that appear in a YouTube Live chat. 
