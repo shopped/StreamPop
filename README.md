@@ -17,6 +17,6 @@ The most popular words in the chat are displayed, based on the amount of unique 
 
 [Get it on the Chrome Store](https://www.google.com)]
 
-![Screenshot](https://raw.githubusercontent.com/shopped/StreamPop/master/Screenshot.png "Screenshot")
+![GIF](https://i.imgur.com/S5s3PXJ.gif "See it in action")
 
-![GIF](blob:https://giphy.com/c0c42ec2-2500-4429-b758-302d8f89cf40 "See it in action")
+![Screenshot](https://raw.githubusercontent.com/shopped/StreamPop/master/Screenshot.png "Screenshot")
