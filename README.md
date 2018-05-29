@@ -15,7 +15,7 @@ The most popular words in the chat are displayed, based on the amount of unique 
 
 ## Links
 
-[Get it on the Chrome Store](https://www.google.com)]
+[Get it on the Chrome Store](https://www.google.com)
 
 ![GIF](https://github.com/shopped/StreamPop/blob/master/8mbstreampop.gif?raw=true "See it in action")
 
