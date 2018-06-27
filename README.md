@@ -5,7 +5,8 @@ The most popular words in the chat are displayed, based on the amount of unique 
 ## Feature List
   * Filter out Common Filler Words
   * Choose to display 2-9 Words
-  * Toggle overlay
+  * Toggle and position overlay
+  * Basic Sentiment Analysis
 
 
 ## Possble Features
@@ -17,6 +18,7 @@ The most popular words in the chat are displayed, based on the amount of unique 
 
 [Get it on the Chrome Store](https://chrome.google.com/webstore/detail/stream-pop/onfcfagccpilhldmccmbfgidbcfigbjk?hl=en&)
 
-![GIF](https://github.com/shopped/StreamPop/blob/master/8mbstreampop.gif?raw=true "See it in action")
+[See how it works on YouTube](https://github.com/shopped/StreamPop/blob/master/8mbstreampop.gif?raw=true)
 
-![Screenshot](https://raw.githubusercontent.com/shopped/StreamPop/master/Screenshot.png "Screenshot")
+![Screenshot](https://i.imgur.com/Dv2rREr.jpg "Screenshot")
+![Screenshot2](https://i.imgur.com/AGaIrp8.jpg "Screenshot2")

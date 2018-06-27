@@ -45,6 +45,8 @@ power.onclick = function(element) {
 			// console.log(idHash);
 			var FILTER = "ON";
 			var MOOD = "ON";
+			var x = 100;
+			var y = 100;
 			updatePopDictionary = function() {
 				streamPopDictionary = {};
 				chrome.storage.local.get(["FILTER"], (response) => {
@@ -59,6 +61,16 @@ power.onclick = function(element) {
 						MOOD = "OFF";
 					} else {
 						MOOD = "ON";
+					}
+				});
+				chrome.storage.local.get(["x"], (response) => {
+					if (response !== {}) {
+						x = response.x;
+					}
+				});
+				chrome.storage.local.get(["y"], (response) => {
+					if (response !== {}) {
+						y = response.y;
 					}
 				});
 				var cleanEmojis = (words) => {
@@ -105,17 +117,22 @@ power.onclick = function(element) {
 					if (analyze.comparative < 0) {
 						streamPopArray.forEach(item => {
 							$(item).css("color", "red");
+							// $(item).css("text-shadow", "2px 2px 4px #00FF00");
 						})
 					} else {
 						streamPopArray.forEach(item => {
 							$(item).css("color", "green");
+							// $(item).css("text-shadow", "2px 2px 4px #FF0000");
 						})
 					}
 				} else {
 					streamPopArray.forEach(item => {
 						$(item).css("color", "white");
+						// $(item).css("text-shadow", "2px 2px 4px #000000");
 					})
 				}
+				$(PopContainer).css("top", y+"px");
+				$(PopContainer).css("left", x+"px");
 				var topNine = sortedItems.slice(0, 9);
 				streamPopFirst.innerHTML = topNine[0][0] + " : " + topNine[0][1] ;
 				streamPopSecond.innerHTML = topNine[1][0] + " : " + topNine[1][1] ;
@@ -155,6 +172,17 @@ chrome.storage.local.get(["FILTER"], (response) => {
 	document.getElementById("filteron").className = "halfOpacity";
 });
 
+chrome.storage.local.get(["x"], (response) => {
+	if (response !== {}) {
+		$('#setx').val(response.x);
+	}
+});
+chrome.storage.local.get(["y"], (response) => {
+	if (response !== {}) {
+		$('#sety').val(response.y);
+	}
+});
+
 chrome.storage.local.get(["MOOD"], (response) => {
 	if (("MOOD" in response) && (response.MOOD === "ON"))
 	document.getElementById("moodon").className = "fullOpacity";
@@ -167,6 +195,12 @@ chrome.storage.local.get(["MOOD"], (response) => {
  * Set amount of Popular Words from Radio Buttons
  */
 $(document).ready(function() {
+	$('input[name=x]').change(function(v) {
+		chrome.storage.local.set({"x":v.target.value});
+	});
+	$('input[name=y]').change(function(v) {
+		chrome.storage.local.set({"y":v.target.value});
+	});
 	$('input[name=num]').click(function(v) {
 		chrome.storage.local.set({"POP":v.target.value});
 		chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
