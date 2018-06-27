@@ -1,6 +1,6 @@
 let power = document.getElementById('power');
 let reset = document.getElementById('reset');
-let donate = document.getElementById('donate');
+let mood = document.getElementById('mood');
 let filter = document.getElementById('filter');
 
 /**
@@ -8,6 +8,7 @@ let filter = document.getElementById('filter');
  */
 power.onclick = function(element) {
 	chrome.tabs.executeScript(null, { file: "jquery.js" }, function() {
+		chrome.tabs.executeScript(null, { file: "sentimood.js" }, function() {
 		chrome.tabs.executeScript(
 			{code: `
 			var COMMONWORDS = ["BE","THIS","HAVE","DO","TO","OF","AT","BY","THE","AND","A","I","IT","HE","SHE","BUT","OR","AN","ARE","IS","AM",""];
@@ -43,6 +44,7 @@ power.onclick = function(element) {
 			}
 			// console.log(idHash);
 			var FILTER = "ON";
+			var MOOD = "ON";
 			updatePopDictionary = function() {
 				streamPopDictionary = {};
 				chrome.storage.local.get(["FILTER"], (response) => {
@@ -52,6 +54,13 @@ power.onclick = function(element) {
 						FILTER = "OFF";
 					}
 				});
+				chrome.storage.local.get(["MOOD"], (response) => {
+					if (response === {} || response["MOOD"] === "OFF") {
+						MOOD = "ON";
+					} else {
+						MOOD = "OFF";
+					}
+				});
 				var cleanEmojis = (words) => {
 					if (words.indexOf("<img class") === -1)
 						return words; 
@@ -59,13 +68,16 @@ power.onclick = function(element) {
 					let newwords = words.substring(start, words.substring(start, words.length).indexOf(">"));
 					return cleanEmojis(newwords);
 				}				
-				/// BUILDING THE DICTIONARY
+				/// BUILDING THE DICTIONARY AND MOOD
+				var moodString = "";
 				for (var i=0; i< idHash.length; i++ ) {
 					//console.log("0:", idHash[i].children[1].children[0].innerHTML); //Time	
-					let user = idHash[i].children[1].children[2].innerHTML; //User
-					//console.log("3:", idHash[i].children[1].children[3].innerHTML); //Text
-					let words = idHash[i].children[1].children[3].innerHTML;
+					let user = idHash[i].children[1].children[1].children[1].innerText; //User
+					//console.log("User:", idHash[i].children[1].children[1].children[1].innerText);//.children());//("#author-name").innerHTML);
+					//console.log("Message:", idHash[i].children[1].children[2].innerText);//("#message").innerHTML); //Text
+					let words = idHash[i].children[1].children[2].innerText;
 					cleanedWords = cleanEmojis(words);
+					if (MOOD === "ON") { moodString = moodString + cleanedWords; }
 					(cleanedWords.split(" ")).map(word => word.toUpperCase()).forEach(word => {
 						if (word === "")
 							return;
@@ -84,6 +96,26 @@ power.onclick = function(element) {
 				sortedItems.sort(function(first, second) {
 					return second[1] - first[1];
 				})
+				if (MOOD === "ON") {
+					let sent = new Sentimood();
+					let analyze =  sent.analyze(moodString);
+					//console.log("SUP");
+					//console.log(moodString);
+					//console.log(analyze);
+					if (analyze.comparative < 0) {
+						streamPopArray.forEach(item => {
+							$(item).css("color", "red");
+						})
+					} else {
+						streamPopArray.forEach(item => {
+							$(item).css("color", "green");
+						})
+					}
+				} else {
+					streamPopArray.forEach(item => {
+						$(item).css("color", "white");
+					})
+				}
 				var topNine = sortedItems.slice(0, 9);
 				streamPopFirst.innerHTML = topNine[0][0] + " : " + topNine[0][1] ;
 				streamPopSecond.innerHTML = topNine[1][0] + " : " + topNine[1][1] ;
@@ -106,6 +138,7 @@ power.onclick = function(element) {
 				poweroff = false;
 			}
 			`});
+		});
 	});
 };
 
@@ -166,6 +199,16 @@ filter.onclick = function(element) {
 /**
  * Gimme gimme
  */
-donate.onclick = function(element) {
-	window.open('https://paypal.me/patrickgesarcarroll/4.20', '_blank');
+mood.onclick = function(element) {
+	chrome.storage.local.get(["MOOD"], (response) => {
+		if (response === {}) {
+			chrome.storage.localset({"MOOD":"OFF"});
+		} else {
+			if (response["MOOD"] === "ON") {
+				chrome.storage.local.set({"MOOD":"OFF"});
+			} else {
+				chrome.storage.local.set({"MOOD":"ON"});
+			}
+		}
+	});
 };

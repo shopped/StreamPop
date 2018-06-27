@@ -1,11 +1,12 @@
 {
 	"name": "Stream Pop",
-	"version": "0.1",
+	"version": "0.2",
 	"description": "Aggregate the three most popular chat messages on YouTube live in a banner",
 	"permissions": ["tabs", "activeTab", "storage", "declarativeContent"],
 	"background": {
 		"scripts": [
 			"jquery.js",
+			"sentimood.js",
 			"background.js"],
 		"persistent": false
 	},
