@@ -39,14 +39,17 @@ img {
 .off {
 	display: none;
 }
+.center {
+	text-align: center;
+}
 </style>
 	</head>
 	<body >
 		<div id="button-container">
-			<button id="power"><img id="poweron" class="on" src="./images/poweron.png"></button>
+			<button id="power"><img id="poweron" src="./images/poweron.png"></button>
 			<button id="filter"><img id="filteron" class="halfOpacity" src="./images/filter.png"/></button>
 			<!-- <button id="reset"><img src="./images/reset.png"/></button> -->
-			<button id="mood"><img src="./images/sentiment.png"/></button>
+			<button id="mood"><img id="moodon" class="halfOpacity" src="./images/sentiment.png"/></button>
 		</div>
 		<div id="select-number-container">
 			<form action="" id="button-container-center">
@@ -60,7 +63,7 @@ img {
 				<input type="radio" name="num" value="9" checked>9&nbsp;
 			</form>
 		</div>
-		<div>made by <a href="https://patriick.com">patrick</a> view source code <a href="https://github.com/shopped">here</a></div>
+		<div class="center">made by <a target="_blank" href="https://patriick.com">patrick</a> view source code <a target="_blank" href="https://github.com/shopped">here</a></div>
 		<script src="jquery.js"></script>
 		<script src="popup.js"></script>
 	</body>

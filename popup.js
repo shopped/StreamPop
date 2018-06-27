@@ -56,9 +56,9 @@ power.onclick = function(element) {
 				});
 				chrome.storage.local.get(["MOOD"], (response) => {
 					if (response === {} || response["MOOD"] === "OFF") {
-						MOOD = "ON";
-					} else {
 						MOOD = "OFF";
+					} else {
+						MOOD = "ON";
 					}
 				});
 				var cleanEmojis = (words) => {
@@ -155,6 +155,14 @@ chrome.storage.local.get(["FILTER"], (response) => {
 	document.getElementById("filteron").className = "halfOpacity";
 });
 
+chrome.storage.local.get(["MOOD"], (response) => {
+	if (("MOOD" in response) && (response.MOOD === "ON"))
+	document.getElementById("moodon").className = "fullOpacity";
+	else
+	document.getElementById("moodon").className = "halfOpacity";
+});
+
+
 /**
  * Set amount of Popular Words from Radio Buttons
  */
@@ -197,16 +205,18 @@ filter.onclick = function(element) {
 }
 
 /**
- * Gimme gimme
+ * Stocks
  */
 mood.onclick = function(element) {
 	chrome.storage.local.get(["MOOD"], (response) => {
+		document.getElementById("moodon").className = "halfOpacity";
 		if (response === {}) {
 			chrome.storage.localset({"MOOD":"OFF"});
 		} else {
 			if (response["MOOD"] === "ON") {
 				chrome.storage.local.set({"MOOD":"OFF"});
 			} else {
+				document.getElementById("moodon").className = "fullOpacity";
 				chrome.storage.local.set({"MOOD":"ON"});
 			}
 		}
