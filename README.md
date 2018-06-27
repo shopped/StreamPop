@@ -18,7 +18,7 @@ The most popular words in the chat are displayed, based on the amount of unique 
 
 [Get it on the Chrome Store](https://chrome.google.com/webstore/detail/stream-pop/onfcfagccpilhldmccmbfgidbcfigbjk?hl=en&)
 
-[See how it works on YouTube](https://github.com/shopped/StreamPop/blob/master/8mbstreampop.gif?raw=true)
+[Demo Video](https://www.youtube.com/watch?v=CbGKLmu75EY)
 
 ![Screenshot](https://i.imgur.com/Dv2rREr.jpg "Screenshot")
 ![Screenshot2](https://i.imgur.com/AGaIrp8.jpg "Screenshot2")
